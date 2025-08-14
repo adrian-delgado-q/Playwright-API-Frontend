@@ -232,6 +232,6 @@ func main() {
 		json.NewEncoder(w).Encode(map[string]string{"status": "ok"})
 	}).Methods("GET")
 
-	fmt.Println("Books API server starting on :8080")
+	fmt.Println("Books API server starting on 0.0.0.0:8080")
 	log.Fatal(http.ListenAndServe("0.0.0.0:8080", r))
 }
