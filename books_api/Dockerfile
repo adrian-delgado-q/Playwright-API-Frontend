@@ -23,7 +23,7 @@ RUN CGO_ENABLED=1 GOOS=linux go build -a -installsuffix cgo -o main .
 FROM alpine:latest
 
 # Install necessary packages
-RUN apk --no-cache add ca-certificates sqlite
+RUN apk --no-cache add ca-certificates sqlite curl
 
 # Set working directory
 WORKDIR /root/
@@ -38,12 +38,11 @@ RUN mkdir -p /data
 EXPOSE 8080
 
 # Set environment variables
-ENV GIN_MODE=release
 ENV DB_PATH=/data/books.db
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD wget --no-verbose --tries=1 --spider http://localhost:8080/health || exit 1
+    CMD curl -f http://127.0.0.1:8080/health || exit 1
 
 # Run the application
 CMD ["./main"]
