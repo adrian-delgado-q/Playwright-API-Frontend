@@ -23,12 +23,14 @@ This project has been containerized using Docker and Docker Compose for consiste
 ## Services
 
 ### API Service (books-api)
+
 - **Port**: 8080
 - **Image**: Built from `books_api/Dockerfile`
 - **Health Check**: `GET /health`
 - **Database**: SQLite persisted in Docker volume
 
-### Frontend Service (books-frontend) 
+### Frontend Service (books-frontend)
+
 - **Port**: 3000 (mapped to nginx port 80)
 - **Image**: Built from `frontend/Dockerfile`
 - **Serves**: Static HTML/CSS/JS
@@ -38,12 +40,14 @@ This project has been containerized using Docker and Docker Compose for consiste
 ## Quick Start
 
 ### 1. Setup and Validate
+
 ```bash
 # Run the Docker setup script
 npm run docker:setup
 ```
 
 ### 2. Development Workflow
+
 ```bash
 # Start all services
 npm run docker:up
@@ -59,15 +63,17 @@ npm run docker:down
 ```
 
 ### 3. Access the Application
+
 - **Frontend**: http://localhost:3000
 - **API**: http://localhost:8080/api/v1/books
-- **Health Checks**: 
+- **Health Checks**:
   - API: http://localhost:8080/health
   - Frontend: http://localhost:3000/health
 
 ## Available Docker Commands
 
 ### Development
+
 ```bash
 npm run docker:build      # Build all images
 npm run docker:up         # Start services in background
@@ -77,6 +83,7 @@ npm run docker:dev        # Start with development overrides
 ```
 
 ### Testing
+
 ```bash
 npm run docker:test:build # Build test environment
 npm run docker:test:up    # Start test services
@@ -85,6 +92,7 @@ npm run docker:test       # Full test cycle (build, test, cleanup)
 ```
 
 ### Maintenance
+
 ```bash
 npm run docker:clean      # Remove containers and prune system
 npm run docker:setup      # Full setup and validation
@@ -93,20 +101,26 @@ npm run docker:setup      # Full setup and validation
 ## Docker Compose Files
 
 ### `docker-compose.yml`
+
 Main production-ready configuration with:
+
 - Health checks
 - Volume persistence
 - Network isolation
 - Optimized for production
 
 ### `docker-compose.dev.yml`
+
 Development overrides with:
+
 - Debug mode for API
 - Live file mounting
 - Development-friendly settings
 
 ### `docker-compose.test.yml`
+
 Testing configuration with:
+
 - Faster health checks
 - Isolated test environment
 - Separate volumes
@@ -114,23 +128,28 @@ Testing configuration with:
 ## Environment Variables
 
 ### API Service
+
 - `GIN_MODE`: `release` (production) or `debug` (development)
 - `DB_PATH`: Path to SQLite database file (default: `/data/books.db`)
 
 ### Frontend Service
+
 - Uses nginx configuration for routing and proxying
 
 ## Volumes
 
 ### `api_data`
+
 Persistent storage for the SQLite database ensuring data survives container restarts.
 
-### `test_api_data` 
+### `test_api_data`
+
 Isolated storage for test runs, automatically cleaned up after tests.
 
 ## Development Tips
 
 ### Debugging
+
 ```bash
 # Check container status
 docker-compose ps
@@ -149,6 +168,7 @@ curl http://localhost:3000/health
 ```
 
 ### Database Access
+
 ```bash
 # Access SQLite database
 docker-compose exec api sh
@@ -159,6 +179,7 @@ sqlite3 /data/books.db
 ```
 
 ### Rebuilding Images
+
 ```bash
 # Rebuild specific service
 docker-compose build api
@@ -178,6 +199,7 @@ The GitHub Actions pipeline has been updated to:
 4. **Deploy** - Container-based deployment simulation
 
 ### Test Stage
+
 - Builds test-specific Docker images
 - Starts services with health checks
 - Runs Playwright tests against containerized services
@@ -185,6 +207,7 @@ The GitHub Actions pipeline has been updated to:
 - Cleans up test environment
 
 ### Build Stage
+
 - Builds production Docker images
 - Validates image functionality
 - Saves images as CI artifacts
@@ -193,7 +216,9 @@ The GitHub Actions pipeline has been updated to:
 ## Troubleshooting
 
 ### Port Conflicts
+
 If ports 3000 or 8080 are already in use:
+
 ```bash
 # Check what's using the ports
 lsof -i :3000
@@ -203,6 +228,7 @@ lsof -i :8080
 ```
 
 ### Database Issues
+
 ```bash
 # Reset database
 docker-compose down -v  # This removes volumes
@@ -210,6 +236,7 @@ docker-compose up -d    # Fresh database with seed data
 ```
 
 ### Image Build Issues
+
 ```bash
 # Clean Docker cache
 docker system prune -a
@@ -219,6 +246,7 @@ docker-compose build --no-cache
 ```
 
 ### Health Check Failures
+
 ```bash
 # Check service logs
 docker-compose logs api
@@ -240,6 +268,7 @@ For production deployment:
 5. Configure backup strategies for the database volume
 
 ### Example Production Setup
+
 ```bash
 # Production environment
 export GIN_MODE=release

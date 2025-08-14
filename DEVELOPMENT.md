@@ -3,13 +3,16 @@
 ## Getting Started
 
 ### Prerequisites
-- Node.js 18+ 
+
+- Node.js 18+
 - Go 1.21+
 - Git
 
 ### Setup
+
 1. Clone the repository
 2. Install dependencies:
+
    ```bash
    npm install
    cd books_api && go mod tidy
@@ -23,6 +26,7 @@
 ## Development Workflow
 
 ### 1. Code Quality
+
 Before committing any code, ensure it passes formatting and linting:
 
 ```bash
@@ -37,6 +41,7 @@ npm run lint:fix
 ```
 
 ### 2. Testing
+
 Run tests locally before pushing:
 
 ```bash
@@ -53,6 +58,7 @@ npm run test:crud
 ```
 
 ### 3. Building
+
 Test that the application builds correctly:
 
 ```bash
@@ -62,33 +68,39 @@ npm run api:build
 ## CI/CD Pipeline
 
 The GitHub Actions pipeline automatically runs on:
+
 - Push to `main` or `develop` branches
 - Pull requests to `main`
 
 ### Pipeline Stages
 
 #### Stage 1: Format & Lint
+
 - Prettier format checking
 - ESLint code quality checks
 - Results cached for faster subsequent runs
 
 #### Stage 2: Test
+
 - Go integration tests
 - Playwright E2E tests (multiple test types in parallel)
 - Test artifacts uploaded on failure
 
 #### Stage 3: Build
+
 - Go binary compilation
 - Binary functionality verification
 - Release artifacts created and uploaded
 
 #### Stage 4: Deploy (Production only)
+
 - Triggered only on `main` branch pushes
 - Deployment simulation
 - Post-deployment smoke tests
 - Notification system
 
 ### Security Scanning
+
 - npm audit for Node.js vulnerabilities
 - Go dependency vulnerability checks
 
@@ -107,18 +119,21 @@ The GitHub Actions pipeline automatically runs on:
 ## Best Practices
 
 ### Code Quality
+
 - All code must pass ESLint checks
 - Use Prettier for consistent formatting
 - Follow TypeScript best practices
 - Write comprehensive tests
 
 ### Git Workflow
+
 - Use feature branches for development
 - Write clear commit messages
 - Ensure CI passes before merging
 - Use the pre-commit hook for local validation
 
 ### Testing
+
 - Write tests for new features
 - Maintain good test coverage
 - Use appropriate test tags (@smoke, @api, @crud, etc.)
@@ -127,6 +142,7 @@ The GitHub Actions pipeline automatically runs on:
 ## Troubleshooting
 
 ### ESLint Issues
+
 ```bash
 # Check specific file
 npx eslint path/to/file.ts
@@ -136,6 +152,7 @@ npx eslint path/to/file.ts --fix
 ```
 
 ### Prettier Issues
+
 ```bash
 # Check specific file
 npx prettier --check path/to/file.ts
@@ -145,6 +162,7 @@ npx prettier --write path/to/file.ts
 ```
 
 ### CI Failures
+
 1. Check the GitHub Actions tab for detailed logs
 2. Run the same commands locally
 3. Ensure all dependencies are up to date
@@ -159,7 +177,7 @@ For deployment and advanced configuration, you may need:
 export API_PORT=8080
 export DB_PATH=./books.db
 
-# Test Configuration  
+# Test Configuration
 export TEST_TIMEOUT=30000
 export HEADLESS=true
 ```

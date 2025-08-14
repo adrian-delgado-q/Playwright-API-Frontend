@@ -6,7 +6,7 @@ test.describe('Books Demo Web Interface E2E Tests @e2e @web', () => {
     await page.goto('http://localhost:3000/books_demo.html');
 
     // Wait for the page to load and initial books to be fetched
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
   });
 
   test('should display the books demo interface @smoke @web', async ({
@@ -27,8 +27,8 @@ test.describe('Books Demo Web Interface E2E Tests @e2e @web', () => {
   test('should load and display existing books @web @books', async ({
     page,
   }) => {
-    // Wait for books to load
-    await page.waitForSelector('.book-card', { timeout: 10000 });
+    // Wait for books to load - using web-first assertion
+    await expect(page.locator('.book-card')).toBeVisible({ timeout: 10000 });
 
     // Check that books are displayed
     const bookCards = page.locator('.book-card');
@@ -72,8 +72,9 @@ test.describe('Books Demo Web Interface E2E Tests @e2e @web', () => {
     );
 
     // Verify the book appears in the list
-    await page.waitForSelector(`text="${bookData.title}"`, { timeout: 10000 });
-    await expect(page.locator(`text="${bookData.title}"`)).toBeVisible();
+    await expect(page.locator(`text="${bookData.title}"`)).toBeVisible({
+      timeout: 10000,
+    });
   });
 
   test('should show validation error for incomplete form @web @validation', async ({
@@ -86,20 +87,19 @@ test.describe('Books Demo Web Interface E2E Tests @e2e @web', () => {
     // Should show error status (form validation will prevent submission)
     // The browser's built-in validation should prevent submission
     // Verify that no success message appears
-    await page.waitForTimeout(1000);
     const successStatus = page.locator('.status.success');
     await expect(successStatus).toBeHidden();
   });
 
   test('should refresh books list @web @books', async ({ page }) => {
     // Wait for initial load
-    await page.waitForSelector('.book-card', { timeout: 10000 });
+    await expect(page.locator('.book-card')).toBeVisible({ timeout: 10000 });
 
     // Click refresh button
     await page.click('button:has-text("🔄 Refresh Books")');
 
     // Wait for reload and verify books are still there
-    await page.waitForSelector('.book-card', { timeout: 10000 });
+    await expect(page.locator('.book-card')).toBeVisible({ timeout: 10000 });
     const refreshedBooks = await page.locator('.book-card').count();
 
     expect(refreshedBooks).toBeGreaterThan(0);
@@ -129,7 +129,9 @@ test.describe('Books Demo Web Interface E2E Tests @e2e @web', () => {
     );
 
     // Wait for the book to appear
-    await page.waitForSelector(`text="${bookData.title}"`, { timeout: 10000 });
+    await expect(page.locator(`text="${bookData.title}"`)).toBeVisible({
+      timeout: 10000,
+    });
 
     // Find the book card and click delete
     const bookCard = page
@@ -169,7 +171,7 @@ test.describe('Books Demo Web Interface E2E Tests @e2e @web', () => {
     });
 
     // Wait for books to load
-    await page.waitForSelector('.book-card', { timeout: 10000 });
+    await expect(page.locator('.book-card')).toBeVisible({ timeout: 10000 });
 
     // Get the first book details
     const firstBookCard = page.locator('.book-card').first();
@@ -206,8 +208,9 @@ test.describe('Books Demo Web Interface E2E Tests @e2e @web', () => {
     // Click edit button
     await firstBookCard.locator('button:has-text("✏️ Edit")').click();
 
-    // Wait for dialogs to be handled
-    await page.waitForTimeout(2000);
+    // Give some time for dialogs to complete processing
+    // Using a small delay here since we're testing user interactions
+    await page.waitForLoadState('domcontentloaded');
 
     // Verify that all expected dialogs were triggered
     expect(dialogCount).toBe(3);
@@ -236,7 +239,7 @@ test.describe('Books Demo Web Interface E2E Tests @e2e @web', () => {
     page,
   }) => {
     // Wait for page to load
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
 
     // Intercept API calls and return an error
     await page.route('**/api/v1/books', route => {

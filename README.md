@@ -228,9 +228,11 @@ make dev        # Run in development mode
 ## Development Tools
 
 ### Code Quality & Formatting
+
 This project uses ESLint and Prettier to maintain code quality and consistent formatting.
 
 #### Available Scripts
+
 ```bash
 # Format all files with Prettier
 npm run format
@@ -249,6 +251,7 @@ npm run ci:format
 ```
 
 #### Pre-commit Hooks
+
 You can optionally set up a pre-commit hook to automatically run formatting and linting:
 
 ```bash
@@ -257,14 +260,16 @@ ln -sf ../../scripts/pre-commit .git/hooks/pre-commit
 ```
 
 ### CI/CD Pipeline
+
 The project includes a comprehensive GitHub Actions CI/CD pipeline with 4 stages:
 
 1. **Format & Lint** - Code quality checks with Prettier and ESLint
-2. **Test** - Integration tests (Go) and E2E tests (Playwright) 
+2. **Test** - Integration tests (Go) and E2E tests (Playwright)
 3. **Build** - Compile the Go API binary and create release artifacts
 4. **Deploy** - Deploy to production (currently simulated)
 
 The pipeline includes:
+
 - ✅ Multi-matrix testing (api, smoke, crud tests)
 - ✅ Security vulnerability scanning
 - ✅ Artifact uploads for builds and test reports
