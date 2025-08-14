@@ -1,0 +1,10 @@
+node_modules/
+dist/
+build/
+out/
+test-results/
+playwright-report/
+coverage/
+books_api/
+*.min.js
+*.bundle.js

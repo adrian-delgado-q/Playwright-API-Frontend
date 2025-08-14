@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+out/
+
+# Test outputs
+test-results/
+playwright-report/
+coverage/
+
+# Go files
+books_api/
+*.go
+
+# Database files
+*.db
+
+# Logs
+*.log
+
+# Package files
+package-lock.json
+yarn.lock
+
+# Config files that shouldn't be formatted
+.gitignore

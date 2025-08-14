@@ -1,0 +1,15 @@
+services:
+  api:
+    environment:
+      - GIN_MODE=debug
+    volumes:
+      - ../../books_api:/app:ro
+      - api_data:/data
+    ports:
+      - "8080:8080"
+
+  frontend:
+    volumes:
+      - ../../frontend/books_demo.html:/usr/share/nginx/html/index.html:ro
+    ports:
+      - "3000:80"
